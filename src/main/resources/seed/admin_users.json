@@ -1,0 +1,56 @@
+[
+  {
+    "loginId": "4868",
+    "name": "Dr. K. Ashesh",
+    "role": "admin",
+    "password": "8500103040"
+  },
+  {
+    "loginId": "1277",
+    "name": "Dr. T. Pavan Kumar",
+    "role": "hod",
+    "password": "9966733444"
+  },
+  {
+    "loginId": "4868",
+    "name": "Dr. K. Ashesh",
+    "role": "deputy_hod",
+    "password": "8500103040",
+    "categories": "Academics,Evaluations"
+  },
+  {
+    "loginId": "4277",
+    "name": "Dr. M L Phaneendra",
+    "role": "deputy_hod",
+    "password": "9666966077",
+    "categories": "Placements"
+  },
+  {
+    "loginId": "8068",
+    "name": "Dr. Jayavarapu Karthik",
+    "role": "deputy_hod",
+    "password": "9848464061",
+    "categories": "Student Affairs"
+  },
+  {
+    "loginId": "8247",
+    "name": "Mrs. N. Sravanthi",
+    "role": "coordinator",
+    "password": "7799223366",
+    "batch": "Y25"
+  },
+  {
+    "loginId": "4795",
+    "name": "Dr. P. Yellamma",
+    "role": "coordinator",
+    "password": "9963375823",
+    "batch": "Y24"
+  },
+  {
+    "loginId": "8337",
+    "name": "Dr. Kalakoti Gowrisankar",
+    "role": "coordinator",
+    "password": "7702162515",
+    "batch": "Y23"
+  }
+]

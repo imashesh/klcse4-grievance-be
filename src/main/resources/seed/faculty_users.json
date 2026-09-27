@@ -1,0 +1,662 @@
+[
+  {
+    "loginId": "10",
+    "name": "Dr. V. Chandra Prakash",
+    "role": "faculty",
+    "password": "9000428511"
+  },
+  {
+    "loginId": "439",
+    "name": "Dr. Srikanth",
+    "role": "faculty",
+    "password": "9966662626"
+  },
+  {
+    "loginId": "827",
+    "name": "Dr. Y Prasanth",
+    "role": "faculty",
+    "password": "9849956996"
+  },
+  {
+    "loginId": "878",
+    "name": "Dr. G Dinesh Kumar",
+    "role": "faculty",
+    "password": "9966633603"
+  },
+  {
+    "loginId": "1277",
+    "name": "Dr. T. Pavan Kumar",
+    "role": "faculty",
+    "password": "9966733444"
+  },
+  {
+    "loginId": "1479",
+    "name": "Dr. Sabbineni Srinivasa Rao",
+    "role": "faculty",
+    "password": "9908174471"
+  },
+  {
+    "loginId": "1553",
+    "name": "Dr. B. Sekhar Babu",
+    "role": "faculty",
+    "password": "9848046823"
+  },
+  {
+    "loginId": "1901",
+    "name": "Dr. Ruth Ramya K",
+    "role": "faculty",
+    "password": "9440307606"
+  },
+  {
+    "loginId": "1920",
+    "name": "Dr. P. Lakshmi Prasanna",
+    "role": "faculty",
+    "password": "9989041679"
+  },
+  {
+    "loginId": "1974",
+    "name": "Dr. K. Ravindranath",
+    "role": "faculty",
+    "password": "9949720555"
+  },
+  {
+    "loginId": "2649",
+    "name": "Dr. Naga Malleswari",
+    "role": "faculty",
+    "password": "9908587853"
+  },
+  {
+    "loginId": "2919",
+    "name": "Dr. MSR Prasad",
+    "role": "faculty",
+    "password": "9441096177"
+  },
+  {
+    "loginId": "2937",
+    "name": "Dr. Kallipalli Venkata Raju",
+    "role": "faculty",
+    "password": "9440477917"
+  },
+  {
+    "loginId": "3346",
+    "name": "Dr. PVRD Prasada Rao",
+    "role": "faculty",
+    "password": "9912137423"
+  },
+  {
+    "loginId": "3880",
+    "name": "Mr. V Vijay Kumar",
+    "role": "faculty",
+    "password": "9441217634"
+  },
+  {
+    "loginId": "3895",
+    "name": "Dr. Gandharba Swain",
+    "role": "faculty",
+    "password": "3895"
+  },
+  {
+    "loginId": "4092",
+    "name": "Dr. P. S. V. S. Sridhar",
+    "role": "faculty",
+    "password": "9441057797"
+  },
+  {
+    "loginId": "4277",
+    "name": "Dr. M L Phaneendra",
+    "role": "faculty",
+    "password": "9666966077"
+  },
+  {
+    "loginId": "4788",
+    "name": "Dr. Raju Anitha",
+    "role": "faculty",
+    "password": "9848224369"
+  },
+  {
+    "loginId": "4795",
+    "name": "Dr. P. Yellamma",
+    "role": "faculty",
+    "password": "9963375823"
+  },
+  {
+    "loginId": "4868",
+    "name": "Dr. K. Ashesh",
+    "role": "faculty",
+    "password": "8500103040"
+  },
+  {
+    "loginId": "5254",
+    "name": "Mrs. V. Mounika",
+    "role": "faculty",
+    "password": "7093796975"
+  },
+  {
+    "loginId": "5257",
+    "name": "Dr. K Bhanu Prakash",
+    "role": "faculty",
+    "password": "8374942274"
+  },
+  {
+    "loginId": "5849",
+    "name": "Dr. A K Velmurugan",
+    "role": "faculty",
+    "password": "9600435701"
+  },
+  {
+    "loginId": "5956",
+    "name": "Dr. P. M. Ashok Kumar",
+    "role": "faculty",
+    "password": "9171080929"
+  },
+  {
+    "loginId": "6126",
+    "name": "Dr. P. Vidya Sagar",
+    "role": "faculty",
+    "password": "9030409956"
+  },
+  {
+    "loginId": "6199",
+    "name": "Dr. Vithya Ganesan",
+    "role": "faculty",
+    "password": "9444144167"
+  },
+  {
+    "loginId": "6229",
+    "name": "Dr. A. Abdul Rahman",
+    "role": "faculty",
+    "password": "9442309983"
+  },
+  {
+    "loginId": "6295",
+    "name": "Mrs. Smritilekha Das",
+    "role": "faculty",
+    "password": "6294570330"
+  },
+  {
+    "loginId": "6307",
+    "name": "Hrushi Kesava Raju Sangaraju",
+    "role": "faculty",
+    "password": "9000007723"
+  },
+  {
+    "loginId": "6332",
+    "name": "Dr. N M Jyothi",
+    "role": "faculty",
+    "password": "9448872986"
+  },
+  {
+    "loginId": "6442",
+    "name": "Dr. P. Ithaya Rani",
+    "role": "faculty",
+    "password": "8838011951"
+  },
+  {
+    "loginId": "6482",
+    "name": "Dr. B Uma Maheswara Rao",
+    "role": "faculty",
+    "password": "9000084878"
+  },
+  {
+    "loginId": "6641",
+    "name": "Dr. K Nagarjuna",
+    "role": "faculty",
+    "password": "9494484604"
+  },
+  {
+    "loginId": "6869",
+    "name": "Dr. Basannt Sah",
+    "role": "faculty",
+    "password": "8307817609"
+  },
+  {
+    "loginId": "6911",
+    "name": "Dr. Krishnan Thiruppathi",
+    "role": "faculty",
+    "password": "9843470063"
+  },
+  {
+    "loginId": "7060",
+    "name": "Tushar Kanti De",
+    "role": "faculty",
+    "password": "9800965529"
+  },
+  {
+    "loginId": "7122",
+    "name": "Dr. Sajja Tulasi Krishna",
+    "role": "faculty",
+    "password": "8179384111"
+  },
+  {
+    "loginId": "7264",
+    "name": "Mr. Nagendra Babu Rajaboina",
+    "role": "faculty",
+    "password": "9052527937"
+  },
+  {
+    "loginId": "7281",
+    "name": "Mr. C. Nagaraju",
+    "role": "faculty",
+    "password": "9603040061"
+  },
+  {
+    "loginId": "7300",
+    "name": "Dr. R. D. Sathiya",
+    "role": "faculty",
+    "password": "9486273418"
+  },
+  {
+    "loginId": "7346",
+    "name": "Mrs. Suneetha Bandeela",
+    "role": "faculty",
+    "password": "9849281374"
+  },
+  {
+    "loginId": "7398",
+    "name": "Dr. Jagadish G",
+    "role": "faculty",
+    "password": "9441345914"
+  },
+  {
+    "loginId": "7511",
+    "name": "Dr. D Vikram",
+    "role": "faculty",
+    "password": "8575197777"
+  },
+  {
+    "loginId": "7602",
+    "name": "Mr. M. Markandeyulu",
+    "role": "faculty",
+    "password": "7286982222"
+  },
+  {
+    "loginId": "7761",
+    "name": "Dr. D. R. Usha Rani",
+    "role": "faculty",
+    "password": "9143487777"
+  },
+  {
+    "loginId": "7864",
+    "name": "Mr. Paladugu Venkateswara Rao",
+    "role": "faculty",
+    "password": "9885251575"
+  },
+  {
+    "loginId": "7941",
+    "name": "Mr. P. Ramesh",
+    "role": "faculty",
+    "password": "9441413974"
+  },
+  {
+    "loginId": "7949",
+    "name": "Dr. Krishna Mohan Gonuguntla",
+    "role": "faculty",
+    "password": "9440446847"
+  },
+  {
+    "loginId": "7969",
+    "name": "Ms. CH. Satya Keerthi N V L",
+    "role": "faculty",
+    "password": "8639445781"
+  },
+  {
+    "loginId": "7989",
+    "name": "Mr. Sukham Romen Singh",
+    "role": "faculty",
+    "password": "7005358708"
+  },
+  {
+    "loginId": "8016",
+    "name": "Mr. L. V. Sambasivarao",
+    "role": "faculty",
+    "password": "9885938477"
+  },
+  {
+    "loginId": "8063",
+    "name": "Dr. B Veeramallu",
+    "role": "faculty",
+    "password": "9959110038"
+  },
+  {
+    "loginId": "8068",
+    "name": "Dr. Jayavarapu Karthik",
+    "role": "faculty",
+    "password": "9848464061"
+  },
+  {
+    "loginId": "8094",
+    "name": "Dr. G. V. Sam Kumar",
+    "role": "faculty",
+    "password": "9384161159"
+  },
+  {
+    "loginId": "8105",
+    "name": "Dr. G. Rajendra Kumar",
+    "role": "faculty",
+    "password": "9393110375"
+  },
+  {
+    "loginId": "8106",
+    "name": "Mr. D. Kishore",
+    "role": "faculty",
+    "password": "9398458788"
+  },
+  {
+    "loginId": "8118",
+    "name": "Dr. K. Selvam",
+    "role": "faculty",
+    "password": "9751351351"
+  },
+  {
+    "loginId": "8121",
+    "name": "Dr. Dharmaiah Devarapalli",
+    "role": "faculty",
+    "password": "9440669164"
+  },
+  {
+    "loginId": "8138",
+    "name": "Yengala Amaraiah",
+    "role": "faculty",
+    "password": "9640820968"
+  },
+  {
+    "loginId": "8145",
+    "name": "Ms. Rajamahendravarapu Lakshmi Durga",
+    "role": "faculty",
+    "password": "9618445946"
+  },
+  {
+    "loginId": "8150",
+    "name": "Mr. G. Bala Venkata Kishore",
+    "role": "faculty",
+    "password": "9550539449"
+  },
+  {
+    "loginId": "8215",
+    "name": "Dr. B. L. N. Phaneendra Kumar",
+    "role": "faculty",
+    "password": "9948176949"
+  },
+  {
+    "loginId": "8242",
+    "name": "Mrs. Gudapati Suneetha",
+    "role": "faculty",
+    "password": "9110568736"
+  },
+  {
+    "loginId": "8244",
+    "name": "Mrs. Lavanya Kongala",
+    "role": "faculty",
+    "password": "8179721355"
+  },
+  {
+    "loginId": "8245",
+    "name": "Mr. Regulagadda Ramakrishna",
+    "role": "faculty",
+    "password": "9963667453"
+  },
+  {
+    "loginId": "8247",
+    "name": "Mrs. N. Sravanthi",
+    "role": "faculty",
+    "password": "7799223366"
+  },
+  {
+    "loginId": "8248",
+    "name": "Mrs. Yampati Bhagyalakshmi",
+    "role": "faculty",
+    "password": "6281636851"
+  },
+  {
+    "loginId": "8270",
+    "name": "Mrs. K. Aruna",
+    "role": "faculty",
+    "password": "7075749534"
+  },
+  {
+    "loginId": "8310",
+    "name": "G. V. Ramana Reddy",
+    "role": "faculty",
+    "password": "9441327823"
+  },
+  {
+    "loginId": "8317",
+    "name": "Mr. Talatoti Ratna Kumar",
+    "role": "faculty",
+    "password": "9640931144"
+  },
+  {
+    "loginId": "8334",
+    "name": "Mrs. Donepudi Rohini",
+    "role": "faculty",
+    "password": "7989998370"
+  },
+  {
+    "loginId": "8337",
+    "name": "Dr. Kalakoti Gowrisankar",
+    "role": "faculty",
+    "password": "7702162515"
+  },
+  {
+    "loginId": "8400",
+    "name": "Mr. Mallampati Mahesh",
+    "role": "faculty",
+    "password": "9398618178"
+  },
+  {
+    "loginId": "8409",
+    "name": "Mrs. CH. Nagamani",
+    "role": "faculty",
+    "password": "7893833706"
+  },
+  {
+    "loginId": "8410",
+    "name": "Ms. G. Anusha",
+    "role": "faculty",
+    "password": "8519927217"
+  },
+  {
+    "loginId": "8412",
+    "name": "Dr. Mohsin Fayaz",
+    "role": "faculty",
+    "password": "7780960007"
+  },
+  {
+    "loginId": "8434",
+    "name": "Mr. Lakshman. B",
+    "role": "faculty",
+    "password": "9948322371"
+  },
+  {
+    "loginId": "8492",
+    "name": "Ms. Bandla Nirosha",
+    "role": "faculty",
+    "password": "8374675936"
+  },
+  {
+    "loginId": "8740",
+    "name": "Dr. Shaik Thaseentaj",
+    "role": "faculty",
+    "password": "8008622076"
+  },
+  {
+    "loginId": "8762",
+    "name": "Mr. K Gopala Krishna",
+    "role": "faculty",
+    "password": "6299987598"
+  },
+  {
+    "loginId": "8789",
+    "name": "Mr. K Hari",
+    "role": "faculty",
+    "password": "9542246263"
+  },
+  {
+    "loginId": "8795",
+    "name": "Dr. B Suresh",
+    "role": "faculty",
+    "password": "9550393293"
+  },
+  {
+    "loginId": "8822",
+    "name": "Dr. R Shalini",
+    "role": "faculty",
+    "password": "9488089812"
+  },
+  {
+    "loginId": "8852",
+    "name": "Mrs. T. Srivalli",
+    "role": "faculty",
+    "password": "9441756003"
+  },
+  {
+    "loginId": "9053",
+    "name": "Mrs. Kotturu Prasuna",
+    "role": "faculty",
+    "password": "9440723235"
+  },
+  {
+    "loginId": "9071",
+    "name": "Dr. Nirupma Pathak",
+    "role": "faculty",
+    "password": "9450410534"
+  },
+  {
+    "loginId": "9083",
+    "name": "Dr. V. Asha Latha",
+    "role": "faculty",
+    "password": "7989745627"
+  },
+  {
+    "loginId": "9102",
+    "name": "Dr. S. Saravanan",
+    "role": "faculty",
+    "password": "9894334400"
+  },
+  {
+    "loginId": "9138",
+    "name": "Mrs. Gavini Naga Pavani",
+    "role": "faculty",
+    "password": "9573641003"
+  },
+  {
+    "loginId": "9511",
+    "name": "Ms. Akula Amrutavalli",
+    "role": "faculty",
+    "password": "9948791055"
+  },
+  {
+    "loginId": "9517",
+    "name": "Ms. C. Lalitha Manasa",
+    "role": "faculty",
+    "password": "8885895497"
+  },
+  {
+    "loginId": "9519",
+    "name": "Dr. Suresh Babu J",
+    "role": "faculty",
+    "password": "9912155717"
+  },
+  {
+    "loginId": "9527",
+    "name": "Mrs. A. Swathi",
+    "role": "faculty",
+    "password": "9440136977"
+  },
+  {
+    "loginId": "9538",
+    "name": "Mr. P. Vijaya Bhaskar",
+    "role": "faculty",
+    "password": "8500180366"
+  },
+  {
+    "loginId": "9561",
+    "name": "Mr. Koyya Avinash",
+    "role": "faculty",
+    "password": "9398598726"
+  },
+  {
+    "loginId": "9570",
+    "name": "Mr. Bhukya Jabber",
+    "role": "faculty",
+    "password": "9849868823"
+  },
+  {
+    "loginId": "9620",
+    "name": "Mr. G. Mohan Rao",
+    "role": "faculty",
+    "password": "9989688847"
+  },
+  {
+    "loginId": "9624",
+    "name": "Mr. Ajay Kumar",
+    "role": "faculty",
+    "password": "9398934353"
+  },
+  {
+    "loginId": "9626",
+    "name": "Mr. K. Raja Yasodhar",
+    "role": "faculty",
+    "password": "8977722499"
+  },
+  {
+    "loginId": "9698",
+    "name": "Dr. E. Vijaya Lakshmi",
+    "role": "faculty",
+    "password": "9493237732"
+  },
+  {
+    "loginId": "9699",
+    "name": "B. Venkateswara Rao",
+    "role": "faculty",
+    "password": "9676601597"
+  },
+  {
+    "loginId": "9702",
+    "name": "Mr. Dheeraj Pandey",
+    "role": "faculty",
+    "password": "7310746924"
+  },
+  {
+    "loginId": "9713",
+    "name": "Dr. Deepak Kumar Barik",
+    "role": "faculty",
+    "password": "9853436964"
+  },
+  {
+    "loginId": "9724",
+    "name": "Dr. Tanumay Mandal",
+    "role": "faculty",
+    "password": "9563304631"
+  },
+  {
+    "loginId": "9726",
+    "name": "Mr. V. B. Ajay",
+    "role": "faculty",
+    "password": "8686467284"
+  },
+  {
+    "loginId": "9765",
+    "name": "Dr. Rashmirekha Ram",
+    "role": "faculty",
+    "password": "7008264445"
+  },
+  {
+    "loginId": "9915",
+    "name": "Dr. Rajib Kumar Dash",
+    "role": "faculty",
+    "password": "9861150435"
+  },
+  {
+    "loginId": "9963",
+    "name": "Dr. CH. Rathna Jyothi",
+    "role": "faculty",
+    "password": "9490899339"
+  },
+  {
+    "loginId": "10037",
+    "name": "Mr. Bosu Babu",
+    "role": "faculty",
+    "password": "9966078588"
+  }
+]

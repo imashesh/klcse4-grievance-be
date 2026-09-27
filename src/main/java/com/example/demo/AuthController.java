@@ -20,27 +20,56 @@ public class AuthController {
         String role = body.get("role"); // optional now
 
         if (loginId == null || password == null) {
-            return ResponseEntity.badRequest().body(Map.of("error", "loginId and password are required."));
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "loginId and password are required."));
         }
 
         AppUser user = null;
 
         if (role != null && !role.isBlank()) {
             // Legacy: role-based lookup
-            Optional<AppUser> userOpt = userRepo.findByLoginIdIgnoreCaseAndRole(loginId.trim(), role.trim());
-            if (userOpt.isPresent()) user = userOpt.get();
+            Optional<AppUser> userOpt =
+                    userRepo.findByLoginIdIgnoreCaseAndRole(
+                            loginId.trim(),
+                            role.trim()
+                    );
+
+            if (userOpt.isPresent()) {
+                user = userOpt.get();
+            }
+
         } else {
             // New: auto-detect role
-            List<AppUser> matches = userRepo.findByLoginIdIgnoreCase(loginId.trim());
-            if (!matches.isEmpty()) user = matches.get(0);
+            List<AppUser> matches =
+                    userRepo.findByLoginIdIgnoreCase(loginId.trim());
+
+            if (!matches.isEmpty()) {
+
+                /*
+                 * Some users may have the same Login ID for more than one role.
+                 *
+                 * Example:
+                 * 4868 -> admin
+                 * 4868 -> deputy_hod
+                 *
+                 * When no role is explicitly supplied by the frontend,
+                 * prefer the admin account.
+                 */
+                user = matches.stream()
+                        .filter(u -> "admin".equalsIgnoreCase(u.getRole()))
+                        .findFirst()
+                        .orElse(matches.get(0));
+            }
         }
 
         if (user == null) {
-            return ResponseEntity.status(401).body(Map.of("error", "No account found with that ID."));
+            return ResponseEntity.status(401)
+                    .body(Map.of("error", "No account found with that ID."));
         }
 
         if (!user.getPassword().equals(password)) {
-            return ResponseEntity.status(401).body(Map.of("error", "Incorrect password."));
+            return ResponseEntity.status(401)
+                    .body(Map.of("error", "Incorrect password."));
         }
 
         Map<String, Object> response = new LinkedHashMap<>();

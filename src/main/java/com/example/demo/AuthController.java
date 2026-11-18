@@ -55,10 +55,16 @@ public class AuthController {
                  * When no role is explicitly supplied by the frontend,
                  * prefer the admin account.
                  */
+                // Authenticate the matching account first. An admin account with
+                // the same login ID must not block a deputy HOD's own password.
+                // Prefer admin only when the supplied password authenticates it.
                 user = matches.stream()
+                        .filter(u -> u.getPassword().equals(password))
                         .filter(u -> "admin".equalsIgnoreCase(u.getRole()))
                         .findFirst()
-                        .orElse(matches.get(0));
+                        .orElseGet(() -> matches.stream()
+                                .filter(u -> u.getPassword().equals(password))
+                                .findFirst().orElse(null));
             }
         }
 
@@ -80,6 +86,22 @@ public class AuthController {
         response.put("batch", user.getBatch());
         response.put("facultyId", user.getFacultyId());
         response.put("categories", user.getCategories());
+
+        // An authenticated administrator may also use their own Deputy HOD
+        // workspace if a separate Deputy HOD account exists for the same ID.
+        // This does NOT grant admin privileges to a Deputy HOD login.
+        if ("admin".equalsIgnoreCase(user.getRole())) {
+            userRepo.findByLoginIdIgnoreCaseAndRole(user.getLoginId(), "deputy_hod")
+                    .ifPresent(deputy -> {
+                        Map<String, Object> deputyProfile = new LinkedHashMap<>();
+                        deputyProfile.put("loginId", deputy.getLoginId());
+                        deputyProfile.put("name", deputy.getName());
+                        deputyProfile.put("role", deputy.getRole());
+                        deputyProfile.put("batch", deputy.getBatch());
+                        deputyProfile.put("categories", deputy.getCategories());
+                        response.put("deputyHodProfile", deputyProfile);
+                    });
+        }
 
         return ResponseEntity.ok(response);
     }

@@ -171,6 +171,46 @@ class GrievanceDeletionTests {
     }
 
     @Test
+    void employee4868DeputyPasswordMayDeleteWithIndependentSecurityKey() {
+        AppUser admin = new AppUser("4868", "Dual Role Admin", "admin",
+                "different-admin-password", null, null, null);
+        AppUser deputy = new AppUser("4868", "Dual Role Deputy", "deputy_hod",
+                "deputy-password", null, null, "Academics,Evaluations");
+        when(userRepo.findByLoginIdIgnoreCaseAndRole("4868", "admin"))
+                .thenReturn(Optional.of(admin));
+        when(userRepo.findByLoginIdIgnoreCaseAndRole("4868", "deputy_hod"))
+                .thenReturn(Optional.of(deputy));
+        when(grievanceRepo.findByIdForDeletion("g-1"))
+                .thenReturn(Optional.of(grievance("Resolved")));
+
+        ResponseEntity<?> result = controller.permanentlyDelete("g-1", Map.of(
+                "adminLoginId", "4868", "adminPassword", "deputy-password",
+                "securityKey", "unit-test-only-deletion-security-key",
+                "referenceConfirmation", REF, "reason", "Duplicate case filed in error"));
+
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        verify(grievanceRepo).delete(any());
+    }
+
+    @Test
+    void employee4868DeputyPasswordCannotDeleteWithoutAdminRegistration() {
+        AppUser deputy = new AppUser("4868", "Deputy Only", "deputy_hod",
+                "deputy-password", null, null, "Academics");
+        when(userRepo.findByLoginIdIgnoreCaseAndRole("4868", "admin"))
+                .thenReturn(Optional.empty());
+        when(userRepo.findByLoginIdIgnoreCaseAndRole("4868", "deputy_hod"))
+                .thenReturn(Optional.of(deputy));
+
+        ResponseEntity<?> result = controller.permanentlyDelete("g-1", Map.of(
+                "adminLoginId", "4868", "adminPassword", "deputy-password",
+                "securityKey", "unit-test-only-deletion-security-key",
+                "referenceConfirmation", REF, "reason", "Duplicate case filed in error"));
+
+        assertEquals(HttpStatus.FORBIDDEN, result.getStatusCode());
+        verifyNoInteractions(grievanceRepo, deletionAuditRepo);
+    }
+
+    @Test
     void deletedReferenceNumberIsNotReusedAfterCounterInitialization() {
         int year = Year.now().getValue();
         String prefix = "CSE4/TT/" + year + "/";

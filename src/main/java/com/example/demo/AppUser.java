@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "app_users", uniqueConstraints = @UniqueConstraint(columnNames = {"login_id", "role"}))
@@ -52,6 +53,7 @@ public class AppUser {
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
 
+    @JsonIgnore
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 

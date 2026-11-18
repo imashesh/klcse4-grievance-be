@@ -17,65 +17,27 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
         String loginId = body.get("loginId");
         String password = body.get("password");
-        String role = body.get("role"); // optional now
-
         if (loginId == null || password == null) {
             return ResponseEntity.badRequest()
                     .body(Map.of("error", "loginId and password are required."));
         }
 
-        AppUser user = null;
-
-        if (role != null && !role.isBlank()) {
-            // Legacy: role-based lookup
-            Optional<AppUser> userOpt =
-                    userRepo.findByLoginIdIgnoreCaseAndRole(
-                            loginId.trim(),
-                            role.trim()
-                    );
-
-            if (userOpt.isPresent()) {
-                user = userOpt.get();
-            }
-
-        } else {
-            // New: auto-detect role
-            List<AppUser> matches =
-                    userRepo.findByLoginIdIgnoreCase(loginId.trim());
-
-            if (!matches.isEmpty()) {
-
-                /*
-                 * Some users may have the same Login ID for more than one role.
-                 *
-                 * Example:
-                 * 4868 -> admin
-                 * 4868 -> deputy_hod
-                 *
-                 * When no role is explicitly supplied by the frontend,
-                 * prefer the admin account.
-                 */
-                // Authenticate the matching account first. An admin account with
-                // the same login ID must not block a deputy HOD's own password.
-                // Prefer admin only when the supplied password authenticates it.
-                user = matches.stream()
+        // Authenticate the actual account password; never select a role
+        // before validating the credential. ID 4868 is explicitly granted
+        // both Deputy HOD and Administrator access when either of its
+        // registered accounts authenticates successfully.
+        List<AppUser> matches = userRepo.findByLoginIdIgnoreCase(loginId.trim());
+        AppUser user = matches.stream()
+                .filter(u -> u.getPassword().equals(password))
+                .filter(u -> "deputy_hod".equalsIgnoreCase(u.getRole()))
+                .findFirst()
+                .orElseGet(() -> matches.stream()
                         .filter(u -> u.getPassword().equals(password))
-                        .filter(u -> "admin".equalsIgnoreCase(u.getRole()))
-                        .findFirst()
-                        .orElseGet(() -> matches.stream()
-                                .filter(u -> u.getPassword().equals(password))
-                                .findFirst().orElse(null));
-            }
-        }
+                        .findFirst().orElse(null));
 
         if (user == null) {
             return ResponseEntity.status(401)
-                    .body(Map.of("error", "No account found with that ID."));
-        }
-
-        if (!user.getPassword().equals(password)) {
-            return ResponseEntity.status(401)
-                    .body(Map.of("error", "Incorrect password."));
+                    .body(Map.of("error", "Invalid login ID or password."));
         }
 
         Map<String, Object> response = new LinkedHashMap<>();
@@ -86,6 +48,13 @@ public class AuthController {
         response.put("batch", user.getBatch());
         response.put("facultyId", user.getFacultyId());
         response.put("categories", user.getCategories());
+        boolean dualRole4868 = "4868".equals(user.getLoginId())
+                && ("admin".equalsIgnoreCase(user.getRole())
+                    || "deputy_hod".equalsIgnoreCase(user.getRole()))
+                && userRepo.findByLoginIdIgnoreCaseAndRole("4868", "admin").isPresent()
+                && userRepo.findByLoginIdIgnoreCaseAndRole("4868", "deputy_hod").isPresent();
+        response.put("adminAccess", dualRole4868 || "admin".equalsIgnoreCase(user.getRole()));
+
 
         // An authenticated administrator may also use their own Deputy HOD
         // workspace if a separate Deputy HOD account exists for the same ID.

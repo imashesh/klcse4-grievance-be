@@ -214,11 +214,27 @@ public class GrievanceController {
         }
 
         Optional<AppUser> admin = userRepo.findByLoginIdIgnoreCaseAndRole(loginId.trim(), "admin");
-        if (admin.isEmpty() || !MessageDigest.isEqual(
+        Optional<AppUser> deputy = "4868".equals(loginId.trim())
+                ? userRepo.findByLoginIdIgnoreCaseAndRole("4868", "deputy_hod")
+                : Optional.empty();
+
+        // Employee 4868 is a designated dual-role user. Re-authenticate with
+        // either of their own account passwords, but only if both role
+        // registrations exist. Other Deputy HODs receive no Admin access.
+        AppUser verifiedActor = null;
+        if (admin.isPresent() && MessageDigest.isEqual(
                 admin.get().getPassword().getBytes(StandardCharsets.UTF_8),
                 password.getBytes(StandardCharsets.UTF_8))) {
+            verifiedActor = admin.get();
+        } else if ("4868".equals(loginId.trim()) && admin.isPresent() && deputy.isPresent()
+                && MessageDigest.isEqual(
+                    deputy.get().getPassword().getBytes(StandardCharsets.UTF_8),
+                    password.getBytes(StandardCharsets.UTF_8))) {
+            verifiedActor = deputy.get();
+        }
+        if (verifiedActor == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(Map.of("error", "Admin verification failed."));
+                    .body(Map.of("error", "Administrator verification failed."));
         }
 
         if (securityKey == null || !MessageDigest.isEqual(
@@ -253,8 +269,8 @@ public class GrievanceController {
         audit.setGrievanceId(grievance.getId());
         audit.setRefNo(grievance.getRefNo());
         audit.setOriginalStatus(grievance.getStatus());
-        audit.setAdminLoginId(admin.get().getLoginId());
-        audit.setAdminName(admin.get().getName());
+        audit.setAdminLoginId(verifiedActor.getLoginId());
+        audit.setAdminName(verifiedActor.getName());
         audit.setReason(reason.trim());
         audit.setDeletedAt(System.currentTimeMillis());
 

@@ -1,9 +1,14 @@
 package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -18,7 +23,20 @@ public class GrievanceController {
     @Autowired
     private AppUserRepository userRepo;
 
-    // In-memory ref-number counters (production would use a DB sequence)
+    @Autowired
+    private GrievanceDeletionAuditRepository deletionAuditRepo;
+
+    // Requires a verified production database backup before enabling on Railway.
+    @Value("${grievances.admin-deletion.enabled:false}")
+    private boolean adminDeletionEnabled;
+
+    // Independent secret: prevents public/default admin credentials from
+    // becoming sufficient to authorize an irreversible operation.
+    @Value("${grievances.admin-deletion.security-key:}")
+    private String adminDeletionSecurityKey;
+
+    // Single-instance counters; seed from both live grievances and permanent deletion
+    // audit records so a deleted reference number can never be reissued on restart.
     private final ConcurrentHashMap<String, AtomicInteger> refCounters = new ConcurrentHashMap<>();
 
     private static final String[] STAGE_ORDER = {"faculty", "coordinator", "deputy_hod", "hod"};
@@ -40,11 +58,16 @@ public class GrievanceController {
         int year = java.time.Year.now().getValue();
         String counterKey = type + "-" + year;
         AtomicInteger counter = refCounters.computeIfAbsent(counterKey, k -> {
-            // Initialize from existing count in DB
-            long existing = grievanceRepo.findAllByOrderByCreatedAtDesc().stream()
-                    .filter(g -> g.getRefNo().startsWith("CSE4/" + type + "/" + year + "/"))
-                    .count();
-            return new AtomicInteger((int) existing);
+            String prefix = "CSE4/" + type + "/" + year + "/";
+            int liveMax = grievanceRepo.findAllByOrderByCreatedAtDesc().stream()
+                    .map(Grievance::getRefNo)
+                    .mapToInt(ref -> referenceSequence(ref, prefix))
+                    .max().orElse(0);
+            int deletedMax = deletionAuditRepo.findByRefNoStartingWith(prefix).stream()
+                    .map(GrievanceDeletionAudit::getRefNo)
+                    .mapToInt(ref -> referenceSequence(ref, prefix))
+                    .max().orElse(0);
+            return new AtomicInteger(Math.max(liveMax, deletedMax));
         });
         int nextNum = counter.incrementAndGet();
         String refNo = String.format("CSE4/%s/%d/%04d", type, year, nextNum);
@@ -165,6 +188,82 @@ public class GrievanceController {
         return ResponseEntity.ok(Map.of("status", g.getStatus(), "currentStage", g.getCurrentStage()));
     }
 
+    /**
+     * Intentionally requires fresh server-side admin authentication for every
+     * deletion: the existing frontend localStorage role is NOT authentication.
+     * Audit insertion and physical deletion are committed atomically.
+     */
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> permanentlyDelete(@PathVariable String id,
+                                               @RequestBody Map<String, String> body) {
+        if (!adminDeletionEnabled || adminDeletionSecurityKey == null
+                || adminDeletionSecurityKey.length() < 24) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(Map.of("error", "Admin deletion is disabled until a backup and deletion security key are configured."));
+        }
+
+        String loginId = body.get("adminLoginId");
+        String password = body.get("adminPassword");
+        String securityKey = body.get("securityKey");
+        String confirmedRef = body.get("referenceConfirmation");
+        String reason = body.get("reason");
+        if (loginId == null || loginId.isBlank() || password == null || password.isBlank()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "Admin credentials are required."));
+        }
+
+        Optional<AppUser> admin = userRepo.findByLoginIdIgnoreCaseAndRole(loginId.trim(), "admin");
+        if (admin.isEmpty() || !MessageDigest.isEqual(
+                admin.get().getPassword().getBytes(StandardCharsets.UTF_8),
+                password.getBytes(StandardCharsets.UTF_8))) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(Map.of("error", "Admin verification failed."));
+        }
+
+        if (securityKey == null || !MessageDigest.isEqual(
+                adminDeletionSecurityKey.getBytes(StandardCharsets.UTF_8),
+                securityKey.getBytes(StandardCharsets.UTF_8))) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(Map.of("error", "Deletion security key is incorrect."));
+        }
+
+        if (reason == null || reason.trim().length() < 10 || reason.trim().length() > 500) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "A deletion reason of 10 to 500 characters is required."));
+        }
+
+        Optional<Grievance> target = grievanceRepo.findByIdForDeletion(id);
+        if (target.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Grievance no longer exists."));
+        }
+
+        Grievance grievance = target.get();
+        if (!"Resolved".equals(grievance.getStatus()) && !"Rejected".equals(grievance.getStatus())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("error", "Only Resolved or Rejected grievances can be deleted."));
+        }
+        if (!grievance.getRefNo().equals(confirmedRef)) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "Type the exact grievance reference number to confirm deletion."));
+        }
+
+        GrievanceDeletionAudit audit = new GrievanceDeletionAudit();
+        audit.setGrievanceId(grievance.getId());
+        audit.setRefNo(grievance.getRefNo());
+        audit.setOriginalStatus(grievance.getStatus());
+        audit.setAdminLoginId(admin.get().getLoginId());
+        audit.setAdminName(admin.get().getName());
+        audit.setReason(reason.trim());
+        audit.setDeletedAt(System.currentTimeMillis());
+
+        deletionAuditRepo.save(audit);
+        grievanceRepo.delete(grievance); // cascades to grievance_history and attachment columns
+        return ResponseEntity.ok(Map.of("message", "Grievance permanently deleted.",
+                "refNo", grievance.getRefNo()));
+    }
+
     // ---- Stats ----
     @GetMapping("/stats")
     public ResponseEntity<?> stats() {
@@ -184,5 +283,14 @@ public class GrievanceController {
             }
         }
         return "closed";
+    }
+
+    private static int referenceSequence(String ref, String prefix) {
+        if (ref == null || !ref.startsWith(prefix)) return 0;
+        try {
+            return Integer.parseInt(ref.substring(prefix.length()));
+        } catch (NumberFormatException ignored) {
+            return 0;
+        }
     }
 }
